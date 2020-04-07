@@ -4,10 +4,7 @@ import com.dto.DTO;
 import com.adapters.OracleJDBC;
 
 import javax.naming.NamingException;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.List;
 
 /**
@@ -22,9 +19,40 @@ public abstract class AbstractJDBCDao<T extends DTO> implements GenericDao<T> {
      * <p/>
      * SELECT * FROM [Table]
      */
-    public abstract String getSelectQuery();
+    protected abstract String getSelectQuery();
+
+    protected abstract String execProcOutput();
 
     protected abstract List<T> parseResultSet(ResultSet rs) throws Exception;
+
+    protected abstract String parseResultSetProc(ResultSet rs) throws Exception;
+
+    @Override
+    public String getProcOutput(String input) throws SQLException, NamingException {
+        String sql = execProcOutput();
+        String output = null;
+
+        Connection connection = null;
+        CallableStatement cstmt = null;
+
+        try {
+            connection = OracleJDBC.getContext();
+            cstmt = connection.prepareCall(sql);
+            cstmt.setString(1, input);
+            cstmt.registerOutParameter(2, Types.VARCHAR);
+            cstmt.executeQuery();
+            output = cstmt.getString(2);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+        finally {
+            OracleJDBC.closeContext(connection,cstmt,null);
+        }
+        return output;
+    }
 
     @Override
     public List<T> getAll() throws SQLException, NamingException {

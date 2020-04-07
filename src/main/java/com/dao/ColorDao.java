@@ -13,6 +13,11 @@ public class ColorDao extends AbstractJDBCDao<Color> {
         return "SELECT * FROM TSVETA";
     }
 
+    @Override
+    public String execProcOutput() {
+        return "{call get_info(?,?)}";
+    }
+
     public ColorDao() {
     }
 
@@ -32,5 +37,14 @@ public class ColorDao extends AbstractJDBCDao<Color> {
             throw new Exception(e);
         }
         return result;
+    }
+
+    @Override
+    protected String parseResultSetProc(ResultSet rs) throws Exception {
+        String result = null;
+        if (rs.next()) {
+            return rs.getString(1);
+        }
+        return null;
     }
 }

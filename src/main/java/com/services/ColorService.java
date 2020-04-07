@@ -11,7 +11,7 @@ public class ColorService implements Service<Color> {
 
     private DaoFactory oracleDaoFactory = null;
 
-    public ColorService(){
+    public ColorService() {
         oracleDaoFactory = new OracleDaoFactory();
     }
 
@@ -20,6 +20,13 @@ public class ColorService implements Service<Color> {
         List<Color> colorList = genericDao.getAll();
 
         return colorList;
+    }
+
+    public String testProcOutput() throws Exception {
+        GenericDao<Color> genericDao = oracleDaoFactory.getDao(Color.class);
+        String testOutput = genericDao.getProcOutput("test");
+
+        return testOutput;
     }
 
     /*public static void getData() {

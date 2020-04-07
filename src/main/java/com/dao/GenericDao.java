@@ -13,4 +13,6 @@ public interface GenericDao<T extends DTO> {
 
     /** Возвращает список объектов соответствующих всем записям в базе данных */
     public List<T> getAll() throws SQLException, NamingException;
+
+    public String getProcOutput(String input) throws SQLException, NamingException;
 }
