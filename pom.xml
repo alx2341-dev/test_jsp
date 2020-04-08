@@ -64,7 +64,7 @@
           <artifactId>tomcat7-maven-plugin</artifactId>
           <version>2.2</version>
           <configuration>
-            <contextFile>src\main\resources\META-INF\context.xml</contextFile>
+            <contextFile>src\main\webapp\META-INF\context.xml</contextFile>
             <mode>context</mode>
             <charset>UTF-8</charset>
             <warDirectory>target/${project.artifactId}-${project.version}</warDirectory>
