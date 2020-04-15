@@ -9,7 +9,7 @@ import java.util.List;
 
 /**
  * Абстрактный класс предоставляющий базовую реализацию операций с использованием JDBC.
- *
+ * test
  * @param <T>  тип объекта
  */
 public abstract class AbstractJDBCDao<T extends DTO> implements GenericDao<T> {
